@@ -1,8 +1,8 @@
 package main
-import (
-       	"github.com/gin-gonic/gin"
-)
 
+import (
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
 	r := gin.Default()
@@ -17,22 +17,16 @@ func main() {
 	//	AllowCredentials: true,
 	//}))
 
-//--------------------------------------[ router ]-------------------------------------------------------------------
-	r.GET("/",hello)
+	//--------------------------------------[ router ]-------------------------------------------------------------------
+	r.GET("/", hello)
 	r.POST("/test", exampleFunc)
-    r.POST("/testJSON", exampleJSON)
+	r.POST("/testJSON", exampleJSON)
 	r.POST("/callback", callbackHandler)
 	r.GET("/updateTotalThailandCovid", UpdateTotalThailandCovid)
 	r.GET("getTotalGlobalPatients", getTotalPatientsEndPoint)
-	r.GET("/getAllFaculty",getAllFaculty)
-	r.POST("/createFaculty",createFaculty)
-	r.POST("/updateFacultyById",updateFacultyById)
+	r.GET("/getAllFaculty", getAllFaculty)
+	r.POST("/createFaculty", createFaculty)
+	r.POST("/updateFacultyById", updateFacultyById)
 
-	r.Run(":1443") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	r.Run(":8080") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
-
-
-
-
-
-
