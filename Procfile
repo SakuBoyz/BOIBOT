@@ -1,1 +1,1 @@
-web: BOIBOT
+web: bin/BOIBOT
