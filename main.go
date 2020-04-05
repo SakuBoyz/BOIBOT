@@ -5,8 +5,8 @@ import (
 )
 
 func main() {
-	r := gin.Default()
-
+	r := gin.New()
+  	r.Use(gin.Logger())
 	InitDB()
 
 	//
