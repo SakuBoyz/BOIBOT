@@ -5,5 +5,5 @@ build:
       - go
   
   run:
-    web: go-getting-started
+    web: BOIBOT
   
