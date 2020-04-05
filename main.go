@@ -5,8 +5,8 @@ import (
 )
 
 func main() {
-	router := gin.New()
-  	router.Use(gin.Logger())
+	r := gin.New()
+  	r.Use(gin.Logger())
 	InitDB()
 
 	//
