@@ -23,7 +23,7 @@ func main() {
 	r.POST("/testJSON", exampleJSON)
 	r.POST("/callback", callbackHandler)
 	r.GET("/updateTotalThailandCovid", UpdateTotalThailandCovid)
-	r.GET("getTotalGlobalPatients", getTotalPatientsEndPoint)
+	r.GET("/getTotalGlobalPatients", getTotalPatientsEndPoint)
 	r.GET("/getAllFaculty", getAllFaculty)
 	r.POST("/createFaculty", createFaculty)
 	r.POST("/updateFacultyById", updateFacultyById)
