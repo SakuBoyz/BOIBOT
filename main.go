@@ -18,15 +18,8 @@ func main() {
 	//}))
 
 	//--------------------------------------[ router ]-------------------------------------------------------------------
-	r.GET("/", hello)
-	r.POST("/test", exampleFunc)
-	r.POST("/testJSON", exampleJSON)
+
 	r.POST("/callback", callbackHandler)
-	r.GET("/updateTotalThailandCovid", UpdateTotalThailandCovid)
-	r.GET("/getTotalGlobalPatients", getTotalPatientsEndPoint)
-	r.GET("/getAllFaculty", getAllFaculty)
-	r.POST("/createFaculty", createFaculty)
-	r.POST("/updateFacultyById", updateFacultyById)
 
 	r.Run(":8080") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

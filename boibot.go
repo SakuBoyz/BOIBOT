@@ -57,11 +57,11 @@ func callbackHandler(c *gin.Context) {
 					return
 				}
 				if 	boibotCmd == "โควิด" {
-					reportCovidTH(event.ReplyToken, message.Text)
+					//reportCovidTH(event.ReplyToken, message.Text)
 					return
 				}
 				if 	boibotCmd == "covid" {
-					reportCovidEN(event.ReplyToken, message.Text)
+					//reportCovidEN(event.ReplyToken, message.Text)
 					return
 				}
 				if boibotCmd == "get out" || boibotCmd == "ออกไป" {
@@ -101,48 +101,48 @@ func callbackHandler(c *gin.Context) {
 	}
 }
 
-func reportCovidTH(replyToken string, message string) bool {
-	cid := 156
-	data := getTotalPatientsByCountryId(cid)
-	y, m, d  := data.UpdateDate.Date()
-	hh := data.UpdateDate.Hour()
-	mm := data.UpdateDate.Minute()
-	date := fmt.Sprintf("%d/%d/%d %d:%d", d, m, y, hh, mm)
-
-	message = fmt.Sprintf("ยืนยันผู้ติดเชื้อ Covid19  \U0001f9a0\n" +
-		"เมื่อ %s น.\n" +
-		"ทั้งหมดในประเทศไทย  🇹🇭  \n" +
-		"ผู้ติดเชื้อ %d คน[+%d]  \U0001F637\n" +
-		"กำลังรักษา %d คน  \U0001F3E5\n" +
-		"หายเเล้ว %d คน  \U0001F606\n" +
-		"เสียชีวิต %d คน[+%d]  \U0001F480\n" +
-		"Credit: https://covid19.th-stat.com/th",
-		date, data.TotalCases, data.TotalCasesIncreases, data.TotalActiveCases,
-		data.TotalRecovered, data.TotalDeaths, data.TotalDeathsIncreases)
-	sendReplyMessage(replyToken, message)
-	return true
-}
-
-func reportCovidEN(replyToken string, message string) bool {
-	cid := 156
-	data := getTotalPatientsByCountryId(cid)
-	y, m, d  := data.UpdateDate.Date()
-	hh := data.UpdateDate.Hour()
-	mm := data.UpdateDate.Minute()
-	date := fmt.Sprintf("%d/%d/%d %d:%d", d, m, y, hh, mm)
-
-	message = fmt.Sprintf("Covid19  \U0001f9a0  in Thailand  🇹🇭  \n" +
-		"UpdateDate %s \n" +
-		"Confirmed %d [+%d]  \U0001F637\n" +
-		"Hospitalized %d   \U0001F3E5\n" +
-		"Recovered %d  \U0001F606\n" +
-		"Deaths %d [+%d]  \U0001F480\n" +
-		"Credit: https://covid19.th-stat.com/th",
-		date, data.TotalCases, data.TotalCasesIncreases, data.TotalActiveCases,
-		data.TotalRecovered, data.TotalDeaths, data.TotalDeathsIncreases)
-	sendReplyMessage(replyToken, message)
-	return true
-}
+//func reportCovidTH(replyToken string, message string) bool {
+//	cid := 156
+//	data := getTotalPatientsByCountryId(cid)
+//	y, m, d  := data.UpdateDate.Date()
+//	hh := data.UpdateDate.Hour()
+//	mm := data.UpdateDate.Minute()
+//	date := fmt.Sprintf("%d/%d/%d %d:%d", d, m, y, hh, mm)
+//
+//	message = fmt.Sprintf("ยืนยันผู้ติดเชื้อ Covid19  \U0001f9a0\n" +
+//		"เมื่อ %s น.\n" +
+//		"ทั้งหมดในประเทศไทย  🇹🇭  \n" +
+//		"ผู้ติดเชื้อ %d คน[+%d]  \U0001F637\n" +
+//		"กำลังรักษา %d คน  \U0001F3E5\n" +
+//		"หายเเล้ว %d คน  \U0001F606\n" +
+//		"เสียชีวิต %d คน[+%d]  \U0001F480\n" +
+//		"Credit: https://covid19.th-stat.com/th",
+//		date, data.TotalCases, data.TotalCasesIncreases, data.TotalActiveCases,
+//		data.TotalRecovered, data.TotalDeaths, data.TotalDeathsIncreases)
+//	sendReplyMessage(replyToken, message)
+//	return true
+//}
+//
+//func reportCovidEN(replyToken string, message string) bool {
+//	cid := 156
+//	data := getTotalPatientsByCountryId(cid)
+//	y, m, d  := data.UpdateDate.Date()
+//	hh := data.UpdateDate.Hour()
+//	mm := data.UpdateDate.Minute()
+//	date := fmt.Sprintf("%d/%d/%d %d:%d", d, m, y, hh, mm)
+//
+//	message = fmt.Sprintf("Covid19  \U0001f9a0  in Thailand  🇹🇭  \n" +
+//		"UpdateDate %s \n" +
+//		"Confirmed %d [+%d]  \U0001F637\n" +
+//		"Hospitalized %d   \U0001F3E5\n" +
+//		"Recovered %d  \U0001F606\n" +
+//		"Deaths %d [+%d]  \U0001F480\n" +
+//		"Credit: https://covid19.th-stat.com/th",
+//		date, data.TotalCases, data.TotalCasesIncreases, data.TotalActiveCases,
+//		data.TotalRecovered, data.TotalDeaths, data.TotalDeathsIncreases)
+//	sendReplyMessage(replyToken, message)
+//	return true
+//}
 
 func reply(replyToken string, message string) bool {
 	if message == "" {
