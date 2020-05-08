@@ -47,21 +47,21 @@ func callbackHandler(c *gin.Context) {
 			switch message := event.Message.(type) {
 			case *linebot.TextMessage:
 				log.Println("===== " + message.Text + " =====")
-				//ไม่เรียกชื่อ(บอท) ไม่คุยด้วย
-				if !strings.HasPrefix(strings.ToLower(message.Text), "boibot ") {
+				text := strings.Split(strings.ToLower(message.Text), " ")
+				if strings.Trim(text[0], " ") != "boibot" {
 					return
 				}
-				boibotCmd := strings.ToLower(message.Text[7:])
+				boibotCmd := text[1]
 
 				if reply(event.ReplyToken, message.Text) {
 					return
 				}
 				if 	boibotCmd == "โควิด" {
-					reportCovidTH(event.ReplyToken, message.Text)
+					reportCovidTH(event.ReplyToken, text)
 					return
 				}
 				if 	boibotCmd == "covid" {
-					reportCovidEN(event.ReplyToken, message.Text)
+					reportCovidEN(event.ReplyToken, text)
 					return
 				}
 				if boibotCmd == "get out" || boibotCmd == "ออกไป" {
@@ -101,45 +101,58 @@ func callbackHandler(c *gin.Context) {
 	}
 }
 
-func reportCovidTH(replyToken string, message string) bool {
-	cid := 156
-	data := getTotalPatientsByCountryId(cid)
-	y, m, d  := data.UpdateDate.Date()
-	hh := data.UpdateDate.Hour()
-	mm := data.UpdateDate.Minute()
-	date := fmt.Sprintf("%d/%d/%d %d:%d", d, m, y, hh, mm)
+func reportCovidTH(replyToken string, text []string) bool {
+	code := strings.ToUpper(text[2])
+	country := getCountryByCode(code)
+	data := getTotalPatientsByCountryId(country.Id)
+	PercentCaseIncrease :=  (float32(data.TotalCasesIncreases)  / float32 (data.TotalCases)) * 100 // %
+	PercentDeathIncrease := (float32(data.TotalDeathsIncreases) / float32 (data.TotalDeaths)) * 100 // %
+	//y, m, d  := data.UpdateDate.Date()
+	//hh := data.UpdateDate.Hour()
+	//mm := data.UpdateDate.Minute()
+	//date := fmt.Sprintf("%d/%d/%d %d:%d", d, m, y, hh, mm)
+	Credit := "Credit: https://thevirustracker.com/"
+	if code == "TH" {
+		Credit = "Credit: https://covid19.th-stat.com/th"
+	}
 
-	message = fmt.Sprintf("ยืนยันผู้ติดเชื้อ Covid19  \U0001f9a0\n" +
+	message := fmt.Sprintf("ยืนยันผู้ติดเชื้อ Covid19  \U0001f9a0\n" +
+		"ทั้งหมดใน%s  %s  \n" +
 		"เมื่อ %s น.\n" +
-		"ทั้งหมดในประเทศไทย  🇹🇭  \n" +
-		"ผู้ติดเชื้อ %d คน[+%d]  \U0001F637\n" +
+		"ผู้ติดเชื้อ %d คน[+%d](+%.2f%s)  \U0001F637\n" +
 		"กำลังรักษา %d คน  \U0001F3E5\n" +
 		"หายเเล้ว %d คน  \U0001F606\n" +
-		"เสียชีวิต %d คน[+%d]  \U0001F480\n" +
-		"Credit: https://covid19.th-stat.com/th",
-		date, data.TotalCases, data.TotalCasesIncreases, data.TotalActiveCases,
-		data.TotalRecovered, data.TotalDeaths, data.TotalDeathsIncreases)
+		"เสียชีวิต %d คน[+%d](+%.2f%s)  \U0001F480\n" +
+		"%s",
+		country.CountryTh, country.Emoji ,data.UpdateDate, data.TotalCases, data.TotalCasesIncreases, PercentCaseIncrease, "%",
+		data.TotalActiveCases, data.TotalRecovered, data.TotalDeaths, data.TotalDeathsIncreases, PercentDeathIncrease, "%", Credit)
 	sendReplyMessage(replyToken, message)
 	return true
 }
 
-func reportCovidEN(replyToken string, message string) bool {
-	cid := 156
-	data := getTotalPatientsByCountryId(cid)
-	y, m, d  := data.UpdateDate.Date()
-	hh := data.UpdateDate.Hour()
-	mm := data.UpdateDate.Minute()
-	date := fmt.Sprintf("%d/%d/%d %d:%d", d, m, y, hh, mm)
+func reportCovidEN(replyToken string, text []string) bool {
+	code := strings.ToUpper(text[2])
+	country := getCountryByCode(code)
+	if country.Id == 0 {
+		return false
+	}
+	data := getTotalPatientsByCountryId(country.Id)
+	PercentCaseIncrease :=  (float32(data.TotalCasesIncreases)  / float32 (data.TotalCases)) * 100 // %
+	PercentDeathIncrease := (float32(data.TotalDeathsIncreases) / float32 (data.TotalDeaths)) * 100 // %
+	//y, m, d  := data.UpdateDate.Date()
+	//hh := data.UpdateDate.Hour()
+	//mm := data.UpdateDate.Minute()
+	//date := fmt.Sprintf("%d/%d/%d %d:%d", d, m, y, hh, mm)
 
-	message = fmt.Sprintf("Covid19  \U0001f9a0  in Thailand  🇹🇭  \n" +
+	message := fmt.Sprintf("Covid19  \U0001f9a0  in %s  %s  \n" +
 		"UpdateDate %s \n" +
-		"Confirmed %d [+%d]  \U0001F637\n" +
+		"Confirmed %d [+%d](+%.2f%s)  \U0001F637\n" +
 		"Hospitalized %d   \U0001F3E5\n" +
 		"Recovered %d  \U0001F606\n" +
-		"Deaths %d [+%d]  \U0001F480\n" +
+		"Deaths %d [+%d](+%.2f%s)  \U0001F480\n" +
 		"Credit: https://covid19.th-stat.com/th",
-		date, data.TotalCases, data.TotalCasesIncreases, data.TotalActiveCases,
-		data.TotalRecovered, data.TotalDeaths, data.TotalDeathsIncreases)
+		country.CountryEng, country.Emoji, data.UpdateDate, data.TotalCases, data.TotalCasesIncreases, PercentCaseIncrease, "%",
+		data.TotalActiveCases, data.TotalRecovered, data.TotalDeaths, data.TotalDeathsIncreases, PercentDeathIncrease, "%")
 	sendReplyMessage(replyToken, message)
 	return true
 }

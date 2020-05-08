@@ -1,11 +1,11 @@
 
 mssql :
     databaseType    : "mssql"
-    server          : "167.71.200.91"
+    server          : "54.211.160.197"
     port            : 1433
     user            : "sa"
-    password        : "P@d0rU123"
-    database        : "BOIBOT"
+    password        : "Saku@Boy"
+    database        : "boibot"
 boibot :
     channelSecret : "d53e953912578537136aae49806309b3"
     channelToken : "shWHPy2AtysDJ8IkWowJC/NTQgpxu5ddDJ3GwD3eUQ6FcDnZ+Q1VgBrF9xyusFwet9PK5cBPmmxxLthorhuZrL94biE5JuQ+aJjEboIP5dQDLsgXMur0+QiioiMCL+xJxlA3aG5aFRDGy2HhHEPpfgdB04t89/1O/w1cDnyilFU="

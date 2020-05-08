@@ -1,13 +1,11 @@
 package main
-
 import (
-	"github.com/gin-gonic/gin"
+       	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	r := gin.New()
-	r.Use(gin.Logger())
-	//InitDB()
+	r := gin.Default()
+	InitDB()
 
 	//
 	//r.Use(cors.New(cors.Config{
@@ -17,16 +15,21 @@ func main() {
 	//	AllowCredentials: true,
 	//}))
 
-	//--------------------------------------[ router ]-------------------------------------------------------------------
+//--------------------------------------[ router ]-------------------------------------------------------------------
+	//GET
 	r.GET("/", hello)
-	r.POST("/test", exampleFunc)
-	r.POST("/testJSON", exampleJSON)
+	r.GET("/GetTotalGlobalPatients", GetTotalPatientsEndPoint)
+	//POST
 	r.POST("/callback", callbackHandler)
-	r.GET("/updateTotalThailandCovid", UpdateTotalThailandCovid)
-	r.GET("/getTotalGlobalPatients", getTotalPatientsEndPoint)
-	r.GET("/getAllFaculty", getAllFaculty)
-	r.POST("/createFaculty", createFaculty)
-	r.POST("/updateFacultyById", updateFacultyById)
-
-	r.Run(":8080") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	r.POST("/UpdateTotalThailandCovid", UpdateTotalThailandCovid)
+	r.POST("/UpdateTotalGlobalCovid", UpdateTotalGlobalCovid)
+	r.POST("/UpdateThailandPatientInfo", UpdateThailandPatientInfo)
+	r.POST("/UpdateTotalThailandPatientsProvince", UpdateTotalThailandPatientsProvince)
+	r.Run(":1443") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
+
+
+
+
+
+

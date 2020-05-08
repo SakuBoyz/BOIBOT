@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
-	"fmt"
+	"reflect"
+	"strings"
 )
 
 func httpRequest(url string) ([]byte, error) {
@@ -20,3 +22,14 @@ func httpRequest(url string) ([]byte, error) {
 	fmt.Println("response" + string(body))
 	return body, nil
 }
+
+
+func field(t interface{}, key string) reflect.Value {
+	strs := strings.Split(key, ".")
+	v := reflect.ValueOf(t)
+	for _, s := range strs[1:] {
+		v = v.FieldByName(s)
+	}
+	return v
+}
+
