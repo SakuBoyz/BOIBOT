@@ -81,12 +81,12 @@ type UpdateTotalGlobalPatients struct {
 }
 
 type Country struct {
-	Id          int    `gorm:"column:id;"`
-	ctCode		string `gorm:"column:ct_code;"`
-	Code        string `gorm:"column:code;"`
-	CountryTh   string `gorm:"column:ct_nameTH;"`
-	CountryEng  string `gorm:"column:ct_nameEN;"`
-	Emoji       string `gorm:"column:emoji;"`
+	Id         int    `gorm:"column:id;"`
+	ctCode     string `gorm:"column:ct_code;"`
+	Code       string `gorm:"column:code;"`
+	CountryTh  string `gorm:"column:ct_nameTH;"`
+	CountryEng string `gorm:"column:ct_nameEN;"`
+	Emoji      string `gorm:"column:emoji;"`
 }
 
 func (Country) TableName() string {
@@ -378,7 +378,7 @@ type RequestTotalThailandPatientsProvince struct {
 		Satun         int64 `json:"Satun"`
 		BuengKan      int64 `json:"Bueng Kan"`
 	}
-
+	UpdateDate *string `json:"UpdateDate"`
 }
 
 type TotalThailandPatientsProvince struct {
@@ -397,4 +397,50 @@ type Province struct {
 
 func (Province) TableName() string {
 	return "PROVINCE"
+}
+
+type ReportPatients struct {
+	Data []struct {
+		Date            string  `json:"Date"`
+		NewConfirmed    int     `json:"NewConfirmed"`
+		NewRecovered    int     `json:"NewRecovered"`
+		NewHospitalized int     `json:"NewHospitalized"`
+		NewDeaths       int     `json:"NewDeaths"`
+		Confirmed       int     `json:"Confirmed"`
+		Recovered       int     `json:"Recovered"`
+		Hospitalized    int     `json:"Hospitalized"`
+		Deaths          int     `json:"Deaths"`
+	} `json:"Data"`
+}
+
+type ReportPatientsInfo struct {
+	UpdateDate      string  `gorm: "column:update_date;"`
+	NewConfirmed    int     `gorm: "column:new_confirmed;"`
+	NewRecovered    int     `gorm: "column:new_recovered;"`
+	NewHospitalized int     `gorm: "column:new_hospitalized;"`
+	NewDeaths       int     `gorm: "column:new_deaths;"`
+	Confirmed       int     `gorm: "column:confirmed;"`
+	Recovered       int     `gorm: "column:recovered;"`
+	Hospitalized    int     `gorm: "column:hospitalized;"`
+	Deaths          int     `gorm: "column:deaths;"`
+}
+
+func (ReportPatientsInfo) TableName() string {
+	return "REPORT_PATIENTS_THAILAND"
+}
+
+type RespondTotalTop3 struct {
+	Sequence				  int 	 `gorm:"column:sequence;"`
+	//CountryId                 int    `gorm:"column:ct_id; primary_key"`
+	CountryNameTH			  string `gorm:"column:ct_nameTH;"`
+	CountryNameEN			  string `gorm:"column:ct_nameEN;"`
+	TotalCases                int64  `gorm:"column:total_cases;"`
+	TotalActiveCases          int64  `gorm:"column:total_active_cases;"`
+	TotalRecovered            int64  `gorm:"column:total_recovered;"`
+	TotalDeaths               int64  `gorm:"column:total_deaths;"`
+	TotalCasesIncreases       int64  `gorm:"column:total_cases_increases;"`
+	TotalActiveCasesIncreases int64  `gorm:"column:Total_active_cases_increases;"`
+	TotalRecoveredIncreases   int64  `gorm:"column:total_recovered_increases;"`
+	TotalDeathsIncreases      int64  `gorm:"column:total_deaths_increases;"`
+	UpdateDate                string `gorm:"column:update_date;"`
 }
