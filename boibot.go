@@ -129,8 +129,8 @@ func reportCovidTH(replyToken string, text []string) bool {
 		if err != nil {
 			sendReplyMessage(replyToken, err.Error())
 		}
-		PercentCaseIncrease :=  (float32(reportData[len(reportData)-1].NewConfirmed)  / float32 (reportData[len(reportData)-2].Confirmed)) * 100
-		PercentDeathIncrease := (float32(reportData[len(reportData)-1].NewDeaths)  / float32 (reportData[len(reportData)-2].Deaths)) * 100
+		PercentCaseIncrease :=  (float32(data.TotalCasesIncreases)  / float32 (reportData[len(reportData)-2].Confirmed)) * 100
+		PercentDeathIncrease := (float32(data.TotalDeathsIncreases)  / float32 (reportData[len(reportData)-2].Deaths)) * 100
 		Credit = "Credit: https://covid19.th-stat.com/th"
 		message := fmt.Sprintf("ยืนยันผู้ติดเชื้อ Covid19  \U0001f9a0\n" +
 			"ทั้งหมดใน%s  %s  \n" +
