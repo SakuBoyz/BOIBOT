@@ -118,7 +118,7 @@ sudo apt install jq
 ** after run cmd in terminal : it auto pull docker images from dockerHub(is public repo)
 ```
 #Docker container
-docker run --name boibot -p 11443:1443 -d jiraponjermkure/boibot:latest go run . 
+docker run --name boibot -p 1080:8080 -d jiraponjermkure/boibot:latest go run . 
  //My boibot start at 1443 port
 docker ps -a
 ```
@@ -129,7 +129,7 @@ docker ps -a
 mapping `<ip:port>` to https://url random by ngrok(Free Trial)
 ````
 #mapping & run ngrok background print log to file.log
-ngrok http 172.31.40.90:11443 > ngrok.log &
+ngrok http 172.31.44.106:1080 > ngrok.log &
 ````
 
 Copy https://url by ngrok to line bot webhook
